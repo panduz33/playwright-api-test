@@ -4,6 +4,12 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      testFiles:
+        description: 'Specify test files or pattern to run (e.g., tests/user.spec.ts or tests/api/*.ts)'
+        required: false
+        default: ''
 env:
   GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
 
@@ -21,7 +27,14 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: |
+        if [ -z "${{ github.event.inputs.testFiles }}" ]; then
+          echo "Running all tests..."
+          npx playwright test 
+        else
+          echo "Running specified test files: ${{ github.event.inputs.testFiles }}"
+          npx playwright test ${{ github.event.inputs.testFiles }}
+        fi
       env:
         GOREST_TOKEN : ${{secrets.GOREST_TOKEN}}
     - uses: actions/upload-artifact@v4
