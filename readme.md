@@ -24,6 +24,20 @@ git clone
 npm install
 ```
 
+### Add .env file
+```
+Create .env file in the root folder
+For basic setup, this tests cases need 
+
+GOREST_TOKEN=your-token
+
+Get The token by registering here
+https://gorest.co.in/#google_vignette
+
+You can generate and get the token from here
+https://gorest.co.in/my-account/access-tokens
+```
+
 ### Test Files is inside tests folder
 ```
 ./tests/some-test.spec.ts
